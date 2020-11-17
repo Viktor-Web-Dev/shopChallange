@@ -2,7 +2,9 @@
 
 ##START
 
-#####Installing dependencies
+###Installing dependencies
+
+First of all you nedd add all dependencies, use:
 
 ### `yarn`
 
