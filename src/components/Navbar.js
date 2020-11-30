@@ -4,7 +4,6 @@ import {NavLink} from 'react-router-dom'
 import Nav from "react-bootstrap/Nav";
 
 const NavbarShop = () => {
-
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Navbar.Brand href="#home">DUV SHOP</Navbar.Brand>
@@ -24,6 +23,13 @@ const NavbarShop = () => {
                         exact
                        >
                         Главная
+                    </NavLink>
+                    <NavLink
+                        className="nav-link"
+                        to="create"
+                        exact
+                       >
+                        Добавить товар
                     </NavLink>
                 </Nav>
             </Navbar.Collapse>

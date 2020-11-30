@@ -1,57 +1,69 @@
-import React from "react";
-import {connect} from 'react-redux'
+import React, {useState} from "react";
+import {useDispatch, useSelector} from 'react-redux'
+import {useParams} from 'react-router-dom'
 import Form from 'react-bootstrap/Form'
 import Button from "react-bootstrap/Button";
 
+
 import {
     createPost,
+    editPost,
     showAlert
 } from "../redux/actions";
 
 import {Alert} from "./Alert";
 
-class PostForm extends React.Component {
-    constructor(props) {
-        super(props);
 
-        this.state = {
-            title: '',
-            body: ''
-        }
-    }
+const PostForm = ({ history, location}) => {
 
-    submitHandler = event => {
+    const {id} = useParams();
+
+    const dispatch = useDispatch()
+
+    const alert = useSelector(state => state.app.alert)
+
+    const [state, setState] = useState({
+        title: '',
+        body: ''
+    })
+
+    const submitHandler = event => {
         event.preventDefault()
 
-        const {title, body} = this.state
+        const {title, body} = state
 
-        if (!title.trim()) {
-            return this.props.showAlert('Название товара не может быть пустым')
+        if (!state.title.trim()) {
+            return dispatch(showAlert('Название товара не может быть пустым'))
         }
 
-        const newPost = {
-            title, body, id: Date.now().toString()
-        }
-
-        this.props.createPost(newPost)
-
-        this.setState({title: '', body: ''})
-    }
-
-    changeInputHandler = event => {
-        event.persist()
-        this.setState(prev => ({
-            ...prev, ...{
-                [event.target.name]: event.target.value
+        if(location.pathname === "/create") {
+            const newPost = {
+                title, body, id: Date.now().toString()
             }
-        }))
+            dispatch(createPost(newPost));
+            history.push("/");
+        } else {
+            const changePost = {
+                title, body, id
+            }
+            dispatch(editPost(changePost));
+            history.push("/");
+        }
     }
 
-    render() {
+    const changeInputHandler = (val, key) => {
+        setState({
+            ...state,
+            [key]: val
+        })
+    }
+
         return (
-            <Form
-                onSubmit={this.submitHandler} >
-                {this.props.alert && <Alert text={this.props.alert}/>}
+            <Form>
+                {alert && <Alert text={alert}/>}
+                <h1 className="h3 mb-3 font-weight-normal">
+                    {location.pathname === "/create" ? "Добавить товар" : "Редактировать товар "}
+                </h1>
                 <Form.Group>
                     <Form.Label>Имя</Form.Label>
                     <Form.Control
@@ -59,8 +71,8 @@ class PostForm extends React.Component {
                         placeholder="Введите название товара"
                         id="title"
                         name="title"
-                        value={this.state.title}
-                        onChange={this.changeInputHandler}
+                        value={state.title}
+                        onChange={(e) => changeInputHandler(e.target.value, "title")}
                     />
                 </Form.Group>
                 <Form.Group>
@@ -70,8 +82,8 @@ class PostForm extends React.Component {
                         placeholder="Введите описание товара"
                         id="body"
                         name="body"
-                        value={this.state.body}
-                        onChange={this.changeInputHandler}
+                        value={state.body}
+                        onChange={(e) => changeInputHandler(e.target.value, "body")}
                     />
                 </Form.Group>
                 <Form.Group>
@@ -85,25 +97,26 @@ class PostForm extends React.Component {
                         <option>Общий склад</option>
                     </Form.Control>
                 </Form.Group>
-                <Button
-                    classname="mt-5 "
-                    variant="success"
-                    type="submit"
-                >
-                    Добавить
-                </Button>
+                <div>
+                    <Button
+                        className="mt-1 mr-1"
+                        variant="success"
+                        type="submit"
+                        onClick={submitHandler}
+                    >
+                        {location.pathname === "/create" ? "Добавить" : "Сохранить"}
+                    </Button>
+                    <Button
+                        className="mt-1 mr-1"
+                        variant="primary"
+                        type="submit"
+                        onClick={() => history.push('/')}
+                    >
+                        Назад
+                    </Button>
+                </div>
             </Form>
         );
-    }
 }
 
-const mapDispatchToProps = {
-    createPost,
-    showAlert
-}
-
-const mapStateToProps = state => ({
-    alert: state.app.alert
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostForm)
+export default PostForm;

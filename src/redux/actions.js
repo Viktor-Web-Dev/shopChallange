@@ -3,12 +3,10 @@ import {
     FETCH_POSTS,
     HIDE_ALERT,
     HIDE_LOADER,
-    HIDE_MODAL,
     REQUEST_POSTS,
     SHOW_ALERT,
     SHOW_LOADER,
-    SHOW_MODAL,
-    DELETE_POSTS
+    DELETE_POSTS, EDIT_POSTS
 } from "./types";
 
 export function createPost(post) {
@@ -22,6 +20,13 @@ export function deletePost(id) {
     return {
         type: DELETE_POSTS,
         payload: { id }
+    }
+}
+
+export function editPost(editPost) {
+    return {
+        type: EDIT_POSTS,
+        payload: editPost
     }
 }
 

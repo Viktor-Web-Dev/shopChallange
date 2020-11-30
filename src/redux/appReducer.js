@@ -1,10 +1,8 @@
 import {
     HIDE_ALERT,
     HIDE_LOADER,
-    HIDE_MODAL,
     SHOW_ALERT,
     SHOW_LOADER,
-    SHOW_MODAL
 } from "./types";
 
 const initialState = {
