@@ -1,11 +1,12 @@
 import React from "react";
-import Postss from "../components/posts/Postss";
+
+import Posts from "../components/posts/Posts";
 
 const Home = (props) => {
 
     return (
         <div className="container pt-3">
-            <Postss props={props}/>
+            <Posts props={props}/>
         </div>
     )
 }

@@ -4,15 +4,25 @@ import {connect, useDispatch} from "react-redux";
 import { PencilSquare, Trash } from 'react-bootstrap-icons';
 import Button from "react-bootstrap/Button";
 
-import {deletePost} from "../../redux/actions";
+import {deletePost, editWarehouse} from "../../redux/actions";
 
 
-const Postss = (props) => {
+const Posts = (props) => {
 
     const dispatch = useDispatch()
 
     if (!props.post.length) {
         return <p className="text-center">Товаров пока нет</p>
+    }
+
+    const removePost = () => {
+        dispatch(deletePost(props.post.id))
+        props.warehouse.map(warehouse => {
+            return dispatch(editWarehouse({
+                ...warehouse,
+                posts: warehouse.posts.filter(el => el.id !== props.post.id)
+            }))
+        })
     }
 
     return (
@@ -31,13 +41,13 @@ const Postss = (props) => {
                 <tr>
                     <td>{posts.title}</td>
                     <td>{posts.body}</td>
-                    <td>{props.warehouse.map(warehouse => warehouse.posts.map(post => post.id === posts.id &&
+                    <td>{props.warehouse.map(warehouse => warehouse.posts.map(product => product.id === posts.id && (
                         <tr key={index}>{warehouse.title}</tr>
-                    ))}
+                    )))}
                     </td>
-                    <td>{props.warehouse.map(warehouse => warehouse.posts.map(post => post.id === posts.id &&
-                        <tr key={index}>{post.value}</tr>
-                    ))}
+                    <td>{props.warehouse.map(warehouse => warehouse.posts.map(product => product.id === posts.id && (
+                        <tr key={index}>{product.value}</tr>
+                    )))}
                     </td>
                     <td>
                         <div className="d-flex justify-content-lg-start align-items-center">
@@ -51,7 +61,7 @@ const Postss = (props) => {
                             <Button
                                 variant="outline-primary"
                                 className="mr-2"
-                                onClick={() => props.history.push(`/edit/${posts.id}`)}
+                                onClick={() => props.props.history.push(`/edit/${posts.id}`)}
                             >
                                 <PencilSquare color="blue"/>
                             </Button>
@@ -70,4 +80,4 @@ const mapStateToProps = state => ({
     warehouse: state.warehouseReducer,
 })
 
-export default connect(mapStateToProps, null)(Postss)
+export default connect(mapStateToProps, null)(Posts)

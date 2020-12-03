@@ -1,9 +1,8 @@
 import React from "react";
 import {connect, useDispatch} from "react-redux";
-
 import Table from "react-bootstrap/Table";
 import Button from "react-bootstrap/Button";
-import {PencilSquare, Trash} from "react-bootstrap-icons";
+import { Trash } from "react-bootstrap-icons";
 
 import { deleteWarehouse } from "../../redux/actions";
 
@@ -46,13 +45,6 @@ const Warehouses = (props) => {
                                 className="mr-2"
                             >
                                 <Trash color="red"/>
-                            </Button>
-                            <Button
-                                variant="outline-primary"
-                                className="mr-2"
-                                onClick={() => props.history.push(`/edit/${warehouse.id}`)}
-                            >
-                                <PencilSquare color="blue"/>
                             </Button>
                         </div>
                     </td>

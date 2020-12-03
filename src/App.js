@@ -1,14 +1,13 @@
 import React, {useEffect} from 'react';
 import {BrowserRouter, Route, Switch} from 'react-router-dom'
 import {connect} from "react-redux";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
+import SetLocalStorage from "./helpers/localStorage";
 import Home from './pages/Home';
 import NavbarShop from './components/Navbar';
 import Main from "./pages/Main";
-import PostForm from "./components/PostForm";
-
-import 'bootstrap/dist/css/bootstrap.min.css';
-import SetLocalStorage from "./helpers/localStorage";
+import PostForm from "./components/posts/PostForm";
 
 
 function App(props) {

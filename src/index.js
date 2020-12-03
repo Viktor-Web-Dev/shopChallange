@@ -1,27 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
-import App from './App';
 import {
     applyMiddleware,
     compose,
     createStore
 } from "redux";
-import {Provider} from 'react-redux'
-import {rootReducer} from "./redux/rootReducer";
-import createSagaMiddleware from 'redux-saga'
-import {sagaWatcher} from "./redux/sagas";
+import { Provider } from 'react-redux'
+import { rootReducer } from "./redux/rootReducer";
+import thunk from 'redux-thunk'
 
-const saga = createSagaMiddleware()
+import App from './App';
+
+import './index.scss';
+
+
+
 
 const store = createStore(rootReducer, compose(
-    applyMiddleware(
-        saga
-    ),
+    applyMiddleware(thunk),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 ))
 
-saga.run(sagaWatcher)
 
 const app = (
     <Provider store={store}>

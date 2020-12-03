@@ -10,9 +10,9 @@ import {
     editPost,
     editWarehouse,
     showAlert
-} from "../redux/actions";
+} from "../../redux/actions";
 
-import {Alert} from "./Alert";
+import {Alert} from "../Alert";
 
 
 const PostForm = (props) => {
@@ -31,7 +31,13 @@ const PostForm = (props) => {
 
     const submitHandler = event => {
         event.preventDefault()
-        const {title, body, value, warehouse, id} = state
+        const {
+            title,
+            body,
+            value,
+            warehouse,
+            id
+        } = state
 
         if (!props.warehouse.map(el => el.posts.filter(el => el.title === title).length > 0).some(el => !!el)) {
 
@@ -39,6 +45,8 @@ const PostForm = (props) => {
 
             if (!state.title.trim()) {
                 return dispatch(showAlert('Название товара не может быть пустым'))
+            } else if (!state.body.trim()) {
+                return dispatch(showAlert('Описание товара не может быть пустым'))
             }
             if (warehouse) {
                 findWarehouse = props.warehouse.filter(el => el.id === Number(warehouse)).pop()
@@ -47,18 +55,18 @@ const PostForm = (props) => {
             }
             if (props.location.pathname === "/create") {
                 dispatch(createPost({
+                    id: Date.now(),
                     title,
                     body,
-                    id: Date.now()
                 }))
                 props.history.push("/");
 
                 dispatch(editWarehouse({
                     ...findWarehouse,
                     posts: findWarehouse.posts.concat({
+                        id: Date.now(),
                         title,
                         body,
-                        id: Date.now(),
                         value: Number(value)
                     })
                 }))
@@ -69,7 +77,7 @@ const PostForm = (props) => {
                             id: Number(id),
                             value: Number(value)
                     }
-                    dispatch(editWarehouse(changePost));
+                    dispatch(editPost(changePost));
                     props.history.push("/");
                 }
         }
@@ -84,7 +92,7 @@ const PostForm = (props) => {
 
     return (
         <Form>
-            {alert && <Alert text={alert}/>}
+            {props.alert && <Alert text={props.alert}/>}
             <h1 className="h3 mb-3 font-weight-normal">
                 {props.location.pathname === "/create" ? "Добавить товар" : "Редактировать товар"}
             </h1>
@@ -165,7 +173,7 @@ const PostForm = (props) => {
 const mapStateToProps = state => ({
     post: state.postsReducer,
     warehouse: state.warehouseReducer,
+    alert: state.appReducer.alert
 })
-
 
 export default connect(mapStateToProps, null)(PostForm)
