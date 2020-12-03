@@ -1,11 +1,11 @@
 import React from "react";
-import Posts from "../components/Posts";
+import Postss from "../components/posts/Postss";
 
-const Home = ({history, post}) => {
+const Home = (props) => {
 
     return (
         <div className="container pt-3">
-            <Posts history={history} post={post}/>
+            <Postss props={props}/>
         </div>
     )
 }

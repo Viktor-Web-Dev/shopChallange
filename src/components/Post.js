@@ -50,7 +50,7 @@ const Post = ({post, history} ) => {
 }
 
 const mapStateToProps = state => ({
-    alert: state.app.alert
+    alert: state.appReducer
 })
 
 export default connect(mapStateToProps, null)(Post)

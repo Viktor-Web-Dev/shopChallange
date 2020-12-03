@@ -15,14 +15,14 @@ const NavbarShop = () => {
                         to="/"
                         exact
                        >
-                        Home
+                        Продукты
                     </NavLink>
                     <NavLink
                         className="nav-link"
                         to="main"
                         exact
                        >
-                        Главная
+                        Склады
                     </NavLink>
                     <NavLink
                         className="nav-link"
