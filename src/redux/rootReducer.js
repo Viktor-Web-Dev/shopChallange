@@ -1,0 +1,10 @@
+import {combineReducers} from "redux";
+import {postsReducer} from "./postsReducer";
+import {appReducer} from "./appReducer";
+import {warehouseReducer} from "./warehouseReducer"
+
+export const rootReducer = combineReducers({
+    postsReducer,
+    appReducer,
+    warehouseReducer,
+})
