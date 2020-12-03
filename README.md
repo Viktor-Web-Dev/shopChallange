@@ -4,7 +4,7 @@
 
 #### Installing dependencies
 
-First of all you nedd add all dependencies, use:
+First of all you need add all dependencies, use:
 
 ### `yarn`
 
